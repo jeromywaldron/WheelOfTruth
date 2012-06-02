@@ -1,6 +1,6 @@
 /**
  * @author Nikita Kouevda, Jenny Shen
- * @date 2012/03/27
+ * @date 2012/06/02
  */
 
 package wof.gui;
@@ -11,44 +11,41 @@ import javax.swing.UIManager;
 import wof.game.WheelOfFortuneGame;
 
 public class WheelOfFortuneFrame extends JFrame {
-    // -----------------------------------------------------------------
+    // -------------------------------------------------------------------------
     // Constructors
-    // -----------------------------------------------------------------
-    
+    // -------------------------------------------------------------------------
+
     public WheelOfFortuneFrame() {
         super("Wheel of Fortune");
-        
+
         // Construct the game
         WheelOfFortuneGame game = new WheelOfFortuneGame();
-        
+
         // Construct the panels
-        WheelOfFortuneTopPanel topPanel =
-                new WheelOfFortuneTopPanel(game);
+        WheelOfFortuneTopPanel topPanel = new WheelOfFortuneTopPanel(game);
         WheelOfFortunePuzzlePanel puzzlePanel =
                 new WheelOfFortunePuzzlePanel(game);
         WheelOfFortuneWheelPanel wheelPanel =
-                new WheelOfFortuneWheelPanel(game, topPanel,
-                        puzzlePanel);
-        
+                new WheelOfFortuneWheelPanel(game, topPanel, puzzlePanel);
+
         // Set the layout and add the panels to the content pane
         setLayout(new FlowLayout());
         add(topPanel);
         add(puzzlePanel);
         add(wheelPanel);
     }
-    
-    // -----------------------------------------------------------------
+
+    // -------------------------------------------------------------------------
     // Methods
-    // -----------------------------------------------------------------
-    
+    // -------------------------------------------------------------------------
+
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(UIManager
-                    .getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
             // Ignore the exception
         }
-        
+
         JFrame window = new WheelOfFortuneFrame();
         window.setSize(900, 600);
         window.setResizable(false);
