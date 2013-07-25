@@ -1,5 +1,5 @@
 <!-- Nikita Kouevda, Jenny Shen -->
-<!-- 2012/06/01 -->
+<!-- 2013/07/25 -->
 
 # Wheel of Fortune
 
@@ -9,12 +9,11 @@ Wheel of Fortune implemented in Java.
 
 ### Compile
 
-    javac wof/game/*.java wof/gui/*.java
+    make
 
 or (JAR):
 
-    javac wof/game/*.java wof/gui/*.java
-    jar cfm WheelOfFortune.jar MANIFEST.MF wof/game/*.class wof/gui/*.class wof/images/*.png wof/phrases/phrases.txt wof/sounds/*.wav
+    make && make jar
 
 ### Run
 
