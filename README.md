@@ -1,5 +1,5 @@
 <!-- Nikita Kouevda, Jenny Shen -->
-<!-- 2013/07/25 -->
+<!-- 2013/10/05 -->
 
 # Wheel of Fortune
 
@@ -7,7 +7,7 @@ Wheel of Fortune implemented in Java.
 
 ## Usage
 
-### Compile
+To compile:
 
     make
 
@@ -15,9 +15,9 @@ or (JAR):
 
     make && make jar
 
-### Run
+To run:
 
-    java wof/gui/WheelOfFortuneFrame
+    java wof.gui.WheelOfFortuneFrame
 
 or (JAR):
 
