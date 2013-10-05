@@ -1,56 +1,55 @@
 /**
  * @author Nikita Kouevda, Jenny Shen
- * @date 2012/06/02
+ * @date 2013/10/05
  */
 
 package wof.gui;
 
 import java.awt.FlowLayout;
+
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
 import wof.game.WheelOfFortuneGame;
 
 public class WheelOfFortuneFrame extends JFrame {
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     public WheelOfFortuneFrame() {
         super("Wheel of Fortune");
 
-        // Construct the game
         WheelOfFortuneGame game = new WheelOfFortuneGame();
 
-        // Construct the panels
         WheelOfFortuneTopPanel topPanel = new WheelOfFortuneTopPanel(game);
         WheelOfFortunePuzzlePanel puzzlePanel =
-                new WheelOfFortunePuzzlePanel(game);
+            new WheelOfFortunePuzzlePanel(game);
         WheelOfFortuneWheelPanel wheelPanel =
-                new WheelOfFortuneWheelPanel(game, topPanel, puzzlePanel);
+            new WheelOfFortuneWheelPanel(game, topPanel, puzzlePanel);
 
-        // Set the layout and add the panels to the content pane
         setLayout(new FlowLayout());
         add(topPanel);
         add(puzzlePanel);
         add(wheelPanel);
-    }
 
-    // -------------------------------------------------------------------------
-    // Methods
-    // -------------------------------------------------------------------------
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900, 600);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+    }
 
     public static void main(String[] args) {
         try {
+            // Use system-specific UI if possible
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
-            // Ignore the exception
+            // Proceed without system-specific UI
         }
 
-        JFrame window = new WheelOfFortuneFrame();
-        window.setSize(900, 600);
-        window.setResizable(false);
-        window.setLocationRelativeTo(null);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setVisible(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new WheelOfFortuneFrame();
+            }
+        });
     }
 }

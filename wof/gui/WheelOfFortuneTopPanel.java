@@ -1,47 +1,39 @@
 /**
  * @author Nikita Kouevda, Jenny Shen
- * @date 2012/06/02
+ * @date 2013/10/05
  */
 
 package wof.gui;
 
 import java.awt.Dimension;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import wof.game.WheelOfFortuneGame;
 
 public class WheelOfFortuneTopPanel extends JPanel {
-    // -------------------------------------------------------------------------
-    // Fields
-    // -------------------------------------------------------------------------
-
-    private WheelOfFortuneGame myGame;
+    private WheelOfFortuneGame game;
 
     private JLabel scoreLabel, turnsLabel;
 
     private JTextField scoreField, turnsField;
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     public WheelOfFortuneTopPanel(WheelOfFortuneGame game) {
         super();
 
-        myGame = game;
+        this.game = game;
 
-        // Construct labels
         scoreLabel = new JLabel("Score:", JLabel.RIGHT);
         turnsLabel = new JLabel("Turns left:", JLabel.RIGHT);
 
-        // Construct text fields and set their properties
-        scoreField = new JTextField("$" + myGame.getScore());
+        scoreField = new JTextField("$" + this.game.getScore());
         scoreField.setEditable(false);
 
-        turnsField = new JTextField("" + myGame.getTurnsLeft());
+        turnsField = new JTextField("" + this.game.getTurnsLeft());
         turnsField.setEditable(false);
 
         // Set layout and add items to this
@@ -58,28 +50,24 @@ public class WheelOfFortuneTopPanel extends JPanel {
         setPreferredSize(new Dimension(900, 25));
     }
 
-    // -------------------------------------------------------------------------
-    // Methods
-    // -------------------------------------------------------------------------
-
     public void addScore(int score) {
-        myGame.addScore(score);
-        scoreField.setText("$" + myGame.getScore());
+        game.addScore(score);
+        scoreField.setText("$" + game.getScore());
     }
 
     public void resetScore() {
-        myGame.resetScore();
-        scoreField.setText("$" + myGame.getScore());
+        game.resetScore();
+        scoreField.setText("$" + game.getScore());
     }
 
     public void resetValues() {
-        myGame.resetValues();
-        turnsField.setText("" + myGame.getTurnsLeft());
-        scoreField.setText("$" + myGame.getScore());
+        game.resetValues();
+        turnsField.setText("" + game.getTurnsLeft());
+        scoreField.setText("$" + game.getScore());
     }
 
     public void subtractTurn() {
-        myGame.subtractTurn();
-        turnsField.setText("" + myGame.getTurnsLeft());
+        game.subtractTurn();
+        turnsField.setText("" + game.getTurnsLeft());
     }
 }
