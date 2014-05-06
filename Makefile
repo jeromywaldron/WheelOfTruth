@@ -1,5 +1,5 @@
 # Nikita Kouevda
-# 2013/11/01
+# 2014/05/05
 
 # Compiler, archive tool, and options
 JAVAC := javac
@@ -7,14 +7,15 @@ JAR := jar
 JAROPTS := cfm
 
 # Sources and targets
-SOURCES := $(wildcard wof/game/*.java) $(wildcard wof/gui/*.java)
+SOURCES := $(wildcard wof/*/*.java)
 TARGETS := $(SOURCES:.java=.class)
-JAREXTRAS := $(wildcard wof/images/*.png) wof/phrases/phrases.txt $(wildcard wof/sounds/*.wav)
+JAREXTRAS := $(wildcard wof/images/*.png) wof/phrases/phrases.txt \
+             $(wildcard wof/sounds/*.wav)
 MANIFEST := MANIFEST.MF
 JARTARGET := wof.jar
 
 # All class files and their escaped versions, for commands
-CLASSES := $(wildcard wof/game/*.class) $(wildcard wof/gui/*.class)
+CLASSES := $(wildcard wof/*/*.class)
 ESCCLASSES := $(subst $$,\$$,$(CLASSES))
 
 # Phony targets
