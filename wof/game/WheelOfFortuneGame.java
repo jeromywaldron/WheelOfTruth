@@ -16,15 +16,13 @@ import java.util.Set;
 public class WheelOfFortuneGame {
     private static final String PHRASES_DIR = "/wof/phrases/";
 
-    private static final int INITIAL_TURNS = 7;
-
     private final List<String> CATEGORIES, PHRASES;
 
     private String category, phrase;
 
     private Set<Character> guessedLetters;
 
-    private int score, remainingTurns;
+    private int score1, score2;
 
     public WheelOfFortuneGame() {
         CATEGORIES = new ArrayList<String>();
@@ -51,8 +49,8 @@ public class WheelOfFortuneGame {
             PHRASES.add("             No Phrases     File                ");
         }
 
-        score = 0;
-        remainingTurns = INITIAL_TURNS;
+        score1 = 0;
+        score2 = 0;
 
         newPhrase();
     }
@@ -69,29 +67,31 @@ public class WheelOfFortuneGame {
         return guessedLetters;
     }
 
-    public int getScore() {
-        return score;
+    public int getScore1() {
+        return score1;
+    }
+    public int getScore2() {
+        return score2;
     }
 
-    public int getTurnsLeft() {
-        return remainingTurns;
+
+    public void addScore1(int score1) {
+        this.score1 += score1;
+    }
+    public void addScore2(int score2) {
+        this.score2 += score2;
     }
 
-    public void addScore(int score) {
-        this.score += score;
+    public void resetScore1() {
+        score1 = 0;
     }
-
-    public void resetScore() {
-        score = 0;
+    public void resetScore2() {
+        score2 = 0;
     }
 
     public void resetValues() {
-        remainingTurns = INITIAL_TURNS;
-        score = 0;
-    }
-
-    public void subtractTurn() {
-        remainingTurns--;
+        score1 = 0;
+        score2 = 0;
     }
 
     public boolean isAllVowelsGuessed() {

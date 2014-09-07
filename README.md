@@ -1,9 +1,7 @@
-<!-- Nikita Kouevda, Jenny Shen -->
-<!-- 2013/10/05 -->
 
-# Wheel of Fortune
+# Wheel of Truth
 
-Wheel of Fortune implemented in Java.
+Wheel of Fortune like game for FBC kids worship - implemented in Java.
 
 ## Usage
 
@@ -23,6 +21,4 @@ or (JAR):
 
     java -jar WheelOfFortune.jar
 
-## License
 
-Licensed under the [MIT License](http://www.opensource.org/licenses/MIT).

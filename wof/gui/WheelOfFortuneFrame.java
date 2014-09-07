@@ -1,7 +1,4 @@
-/**
- * @author Nikita Kouevda, Jenny Shen
- * @date 2013/10/05
- */
+
 
 package wof.gui;
 
@@ -15,7 +12,7 @@ import wof.game.WheelOfFortuneGame;
 
 public class WheelOfFortuneFrame extends JFrame {
     public WheelOfFortuneFrame() {
-        super("Wheel of Fortune");
+        super("Wheel of Truth");
 
         WheelOfFortuneGame game = new WheelOfFortuneGame();
 
@@ -31,7 +28,7 @@ public class WheelOfFortuneFrame extends JFrame {
         add(wheelPanel);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 600);
+        setSize(1200, 900);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);

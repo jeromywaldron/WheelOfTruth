@@ -1,7 +1,4 @@
-/**
- * @author Nikita Kouevda, Jenny Shen
- * @date 2013/10/05
- */
+
 
 package wof.gui;
 
@@ -21,8 +18,8 @@ import wof.game.WheelOfFortuneGame;
 public class WheelOfFortunePuzzlePanel extends JPanel {
     private static final String SOUNDS_DIR = "/wof/sounds/";
 
-    private static final int SQUARE_WIDTH = 35, SQUARE_HEIGHT = 45,
-            SPACE_WIDTH = 2, PUZZLE_WIDTH = 12 * SQUARE_WIDTH,
+    private static final int SQUARE_WIDTH = 55, SQUARE_HEIGHT = 65,
+            SPACE_WIDTH = 2, PUZZLE_WIDTH = 16 * SQUARE_WIDTH,
             PUZZLE_HEIGHT = 4 * SQUARE_HEIGHT;
 
     private final AudioClip CATEGORY_CLIP;
@@ -41,14 +38,14 @@ public class WheelOfFortunePuzzlePanel extends JPanel {
                 SOUNDS_DIR + "category.wav"));
 
         categoryLabel = new JLabel();
-        categoryLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        categoryLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.PLAIN, 36));
 
         Box labelBox = Box.createVerticalBox();
-        labelBox.add(Box.createVerticalStrut(215));
+        labelBox.add(Box.createVerticalStrut(250));
         labelBox.add(categoryLabel);
 
         add(labelBox);
-        setPreferredSize(new Dimension(900, 250));
+        setPreferredSize(new Dimension(1200, 350));
     }
 
     public void newGame() {
@@ -68,14 +65,14 @@ public class WheelOfFortunePuzzlePanel extends JPanel {
 
         // Draw each letter box
         for (int i = 0; i < phrase.length(); ++i) {
-            int row = i / 12, col = i % 12;
+            int row = i / 16, col = i % 16;
 
             paintLetterBox(g, row, col, phrase.charAt(i) == ' ');
 
             // Draw letter in this box if it has been revealed
             if (game.getGuessedLetters().contains(phrase.charAt(i))) {
                 g.setColor(Color.BLACK);
-                g.setFont(new Font("Bitstream Vera Sans Mono", Font.PLAIN, 46));
+                g.setFont(new Font("Bitstream Vera Sans Mono", Font.PLAIN, 60));
                 drawLetter(g, ("" + phrase.charAt(i)).toUpperCase(), row, col);
             }
         }

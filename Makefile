@@ -1,5 +1,4 @@
-# Nikita Kouevda
-# 2014/08/07
+
 
 # Compiler, archive tool, and options
 JAVAC := javac

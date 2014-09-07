@@ -65,17 +65,21 @@ public class WheelOfFortuneWheelPanel extends JPanel {
 
     private JButton[] letterButtons;
 
-    private JButton spinWheel, solvePuzzle, newGame, howToPlay, about;
+    private JButton spinWheel1, spinWheel2, solvePuzzle1, solvePuzzle2, buyVowel1, buyVowel2, newGame;
 
     private JTextArea statusArea;
+
+    private boolean spinFlag1;
 
     static {
         // Store the image names for image construction later
         IMAGE_NAMES =
-            new String[] {"300.png", "750.png", "500.png", "loseATurn.png",
-                "1000.png", "600.png", "350.png", "950.png", "800.png",
-                "550.png", "450.png", "700.png", "bankrupt.png", "650.png",
-                "250.png", "900.png", "400.png", "850.png"};
+                new String[]{"300.png", "750.png", "500.png", "loseATurn.png", "250.png",
+                        "1000.png", "600.png", "350.png", "950.png", "800.png",
+                        "550.png", "450.png", "700.png", "650.png",
+                        "900.png", "400.png", "850.png", "250.png"
+                        // "bankrupt.png",
+                        };
 
         WHEEL_COLORS = new HashMap<String, Color>();
         WHEEL_COLORS.put("300", Color.BLUE);
@@ -90,7 +94,7 @@ public class WheelOfFortuneWheelPanel extends JPanel {
         WHEEL_COLORS.put("550", new Color(0, 128, 128));
         WHEEL_COLORS.put("450", new Color(255, 0, 128));
         WHEEL_COLORS.put("700", new Color(0, 128, 0));
-        WHEEL_COLORS.put("bankrupt", Color.BLACK);
+        // WHEEL_COLORS.put("bankrupt", Color.BLACK);
         WHEEL_COLORS.put("650", Color.YELLOW);
         WHEEL_COLORS.put("250", Color.GREEN);
         WHEEL_COLORS.put("900", Color.PINK);
@@ -99,29 +103,30 @@ public class WheelOfFortuneWheelPanel extends JPanel {
     }
 
     public WheelOfFortuneWheelPanel(WheelOfFortuneGame game,
-            WheelOfFortuneTopPanel topPanel,
-            WheelOfFortunePuzzlePanel puzzlePanel) {
+                                    WheelOfFortuneTopPanel topPanel,
+                                    WheelOfFortunePuzzlePanel puzzlePanel) {
         super();
 
         this.game = game;
         this.topPanel = topPanel;
         this.puzzlePanel = puzzlePanel;
+        spinFlag1 = false;
 
         SPINNING_WHEEL_CLIP =
-            Applet.newAudioClip(getClass().getResource(
-                SOUNDS_DIR + "spinningWheel.wav"));
+                Applet.newAudioClip(getClass().getResource(
+                        SOUNDS_DIR + "spinningWheel.wav"));
         GOOD_GUESS_CLIP =
-            Applet.newAudioClip(getClass().getResource(
-                SOUNDS_DIR + "goodGuess.wav"));
+                Applet.newAudioClip(getClass().getResource(
+                        SOUNDS_DIR + "goodGuess.wav"));
         BAD_GUESS_CLIP =
-            Applet.newAudioClip(getClass().getResource(
-                SOUNDS_DIR + "badGuess.wav"));
+                Applet.newAudioClip(getClass().getResource(
+                        SOUNDS_DIR + "badGuess.wav"));
         BANKRUPT_CLIP =
-            Applet.newAudioClip(getClass().getResource(
-                SOUNDS_DIR + "bankrupt.wav"));
+                Applet.newAudioClip(getClass().getResource(
+                        SOUNDS_DIR + "bankrupt.wav"));
         NO_MORE_VOWELS_CLIP =
-            Applet.newAudioClip(getClass().getResource(
-                SOUNDS_DIR + "noMoreVowels.wav"));
+                Applet.newAudioClip(getClass().getResource(
+                        SOUNDS_DIR + "noMoreVowels.wav"));
 
         // Store the toolkit for easier access and fewer calls
         Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
@@ -130,15 +135,15 @@ public class WheelOfFortuneWheelPanel extends JPanel {
 
         for (String imageName : IMAGE_NAMES) {
             IMAGES.put(
-                imageName,
-                defaultToolkit.getImage(getClass().getResource(
-                    IMAGES_DIR + imageName)));
+                    imageName,
+                    defaultToolkit.getImage(getClass().getResource(
+                            IMAGES_DIR + imageName)));
         }
 
         IMAGES.put(
-            "arrow.png",
-            defaultToolkit.getImage(getClass().getResource(
-                IMAGES_DIR + "arrow.png")));
+                "arrow.png",
+                defaultToolkit.getImage(getClass().getResource(
+                        IMAGES_DIR + "arrow.png")));
 
         wheelTimer = new Timer(25, new ActionListener() {
             @Override
@@ -155,55 +160,75 @@ public class WheelOfFortuneWheelPanel extends JPanel {
         buttonListener = new ButtonListener();
 
         for (int i = 0; i < letterButtons.length; i++) {
-            letterButtons[i] = new JButton("" + (char)(i + 65));
+            letterButtons[i] = new JButton("" + (char) (i + 65));
             letterButtons[i].addActionListener(buttonListener);
             letterButtons[i].setEnabled(false);
         }
 
         lettersPanel = new JPanel();
-        lettersPanel.setPreferredSize(new Dimension(100, 200));
+        lettersPanel.setPreferredSize(new Dimension(300, 300));
         lettersPanel.setLayout(new GridLayout(6, 5, 2, 2));
 
         // Vowel buttons are red, consonant buttons are blue
         for (int i = 0; i < letterButtons.length; i++) {
             letterButtons[i].setBackground((i == 0 || i == 4 || i == 8
-                || i == 14 || i == 20) ? Color.RED : Color.BLUE);
+                    || i == 14 || i == 20) ? Color.RED : Color.BLUE);
+            letterButtons[i].setFont(new Font("Tahoma", Font.PLAIN, 24));
             lettersPanel.add(letterButtons[i]);
         }
 
-        spinWheel = new JButton("Spin Wheel");
-        spinWheel.addActionListener(buttonListener);
 
-        solvePuzzle = new JButton("Solve Puzzle");
-        solvePuzzle.addActionListener(buttonListener);
+        spinWheel1 = new JButton("Spin: Team 1");
+        spinWheel1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        spinWheel1.addActionListener(buttonListener);
+
+        spinWheel2 = new JButton("Spin: Team 2");
+        spinWheel2.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        spinWheel2.addActionListener(buttonListener);
+
+        solvePuzzle1 = new JButton("Solve: Team 1");
+        solvePuzzle1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        solvePuzzle1.addActionListener(buttonListener);
+
+        solvePuzzle2 = new JButton("Solve: Team 2");
+        solvePuzzle2.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        solvePuzzle2.addActionListener(buttonListener);
+
+        buyVowel1 = new JButton("Vowel: Team 1");
+        buyVowel1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        buyVowel1.addActionListener(buttonListener);
+
+        buyVowel2 = new JButton("Vowel: Team 2");
+        buyVowel2.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        buyVowel2.addActionListener(buttonListener);
 
         newGame = new JButton("New Game");
+        newGame.setFont(new Font("Tahoma", Font.PLAIN, 24));
         newGame.addActionListener(buttonListener);
 
-        howToPlay = new JButton("How to Play");
-        howToPlay.addActionListener(buttonListener);
-
-        about = new JButton("About");
-        about.addActionListener(buttonListener);
 
         statusArea = new JTextArea();
-        statusArea.setFont(new Font("Tahoma", Font.PLAIN, 11));
+        statusArea.setFont(new Font("Tahoma", Font.PLAIN, 24));
         statusArea.setEditable(false);
         statusArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         statusArea.setLineWrap(true);
         statusArea.setWrapStyleWord(true);
 
         Box optionButtonsBox = Box.createVerticalBox();
-        optionButtonsBox.add(spinWheel);
+        optionButtonsBox.add(spinWheel1);
         optionButtonsBox.add(Box.createVerticalStrut(15));
-        optionButtonsBox.add(solvePuzzle);
-        optionButtonsBox.add(Box.createVerticalStrut(60));
+        optionButtonsBox.add(spinWheel2);
+        optionButtonsBox.add(Box.createVerticalStrut(15));
+        optionButtonsBox.add(solvePuzzle1);
+        optionButtonsBox.add(Box.createVerticalStrut(15));
+        optionButtonsBox.add(solvePuzzle2);
+        optionButtonsBox.add(Box.createVerticalStrut(15));
+        optionButtonsBox.add(buyVowel1);
+        optionButtonsBox.add(Box.createVerticalStrut(15));
+        optionButtonsBox.add(buyVowel2);
+        optionButtonsBox.add(Box.createVerticalStrut(30));
         optionButtonsBox.add(newGame);
-        optionButtonsBox.add(Box.createVerticalStrut(15));
-        optionButtonsBox.add(howToPlay);
-        optionButtonsBox.add(Box.createVerticalStrut(15));
-        optionButtonsBox.add(about);
-        optionButtonsBox.add(Box.createVerticalStrut(250));
+        optionButtonsBox.add(Box.createVerticalStrut(100));
 
         Box letterButtonsBox = Box.createVerticalBox();
         letterButtonsBox.add(lettersPanel);
@@ -217,17 +242,17 @@ public class WheelOfFortuneWheelPanel extends JPanel {
         outsideBox.add(Box.createHorizontalStrut(550));
         outsideBox.add(letterButtonsBox);
         outsideBox.add(Box.createHorizontalStrut(20));
-        outsideBox.setPreferredSize(new Dimension(900, 500));
+        outsideBox.setPreferredSize(new Dimension(1200, 500));
 
         add(outsideBox);
-        setPreferredSize(new Dimension(900, 300));
+        setPreferredSize(new Dimension(1200, 500));
 
         newGame();
     }
 
     public void newGame() {
-        statusArea.setText("Welcome to Wheel of Fortune!\n"
-            + "You may spin the wheel or solve the puzzle.");
+        statusArea.setText("Welcome to Wheel of Truth!\n"
+                + "You may spin the wheel or solve the puzzle.");
         topPanel.resetValues();
 
         puzzlePanel.newGame();
@@ -240,7 +265,10 @@ public class WheelOfFortuneWheelPanel extends JPanel {
 
         setEnabledConsonants(false);
         setEnabledVowels(false);
-        spinWheel.setEnabled(true);
+        spinWheel1.setEnabled(true);
+        spinWheel2.setEnabled(true);
+        solvePuzzle1.setEnabled(false);
+        solvePuzzle2.setEnabled(false);
 
         repaint();
     }
@@ -249,18 +277,18 @@ public class WheelOfFortuneWheelPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2D = (Graphics2D)g.create();
+        Graphics2D g2D = (Graphics2D) g.create();
 
         // Draw each space
         for (int i = 0, degrees = 0; i < imageNames.size() / 2; ++i) {
             g2D.setColor(WHEEL_COLORS.get(imageNames.get(i).substring(0,
-                imageNames.get(i).indexOf('.'))));
-            g2D.fillArc(150, 45, 480, 480, degrees, DEGREES_EACH);
+                    imageNames.get(i).indexOf('.'))));
+            g2D.fillArc(260, 45, 480, 480, degrees, DEGREES_EACH);
             degrees += DEGREES_EACH;
         }
 
         // Set the origin and rotate before drawing the images
-        g2D.translate(390, 285);
+        g2D.translate(500, 285);
         g2D.rotate(Math.toRadians(-100));
 
         // Draw wheel spaces
@@ -273,7 +301,7 @@ public class WheelOfFortuneWheelPanel extends JPanel {
         g2D.translate(-390, -285);
 
         // Draw the arrow to indicate where the wheel stopped
-        g.drawImage(IMAGES.get("arrow.png"), 370, 10, this);
+        g.drawImage(IMAGES.get("arrow.png"), 480, 10, this);
     }
 
     private void setEnabledConsonants(boolean b) {
@@ -298,86 +326,79 @@ public class WheelOfFortuneWheelPanel extends JPanel {
         }
     }
 
-    private void handleWin() {
+    private void handleWin1() {
         game.revealPuzzle();
+        puzzlePanel.repaint();
 
         JOptionPane.showMessageDialog(null,
-            "Congratulations, you win $" + game.getScore() + "!\n\n",
-            "You Win!", JOptionPane.INFORMATION_MESSAGE);
+                "Congratulations, you win $" + game.getScore1() + "!\n\n",
+                "You Win!", JOptionPane.INFORMATION_MESSAGE);
+
+        newGame();
+    }
+
+    private void handleWin2() {
+        game.revealPuzzle();
+        puzzlePanel.repaint();
+
+        JOptionPane.showMessageDialog(null,
+                "Congratulations, you win $" + game.getScore2() + "!\n\n",
+                "You Win!", JOptionPane.INFORMATION_MESSAGE);
 
         newGame();
     }
 
     private void handleLoss(String message) {
         game.revealPuzzle();
+        puzzlePanel.repaint();
 
         JOptionPane.showMessageDialog(null, message + "\nSorry, you lose.",
-            "You Lose!", JOptionPane.INFORMATION_MESSAGE);
+                "You Lose!", JOptionPane.INFORMATION_MESSAGE);
 
         newGame();
     }
 
-    private void showHowToPlay() {
-        JOptionPane.showMessageDialog(null,
-            "To guess a consonant, you must first spin the wheel (Press "
-                + "\"Spin Wheel\" to\nspin it, and \"Stop Wheel\" to "
-                + "stop it). You will be awarded the amount on the\n"
-                + "space times the number of appearances of the "
-                + "consonant in the puzzle. You\nlose a turn if the "
-                + "consonant does not appear in the puzzle.\n\nYou may "
-                + "buy a vowel at any time if you have at least $250. "
-                + "Vowels cost a flat\nrate of $250; extra money will "
-                + "not be deducted for multiple occurrences of the\n"
-                + "vowel in the puzzle. If the vowel does not appear "
-                + "in the puzzle, you lose a turn\nin addition to the "
-                + "$250.\n\nThere are two non-cash amount spaces on "
-                + "the wheel: \"Bankrupt\" and \"Lose a\nTurn\", both "
-                + "of which make you lose a turn. In addition, "
-                + "\"Bankrupt\" brings your\nscore down to 0.\n\nIn "
-                + "order to win the game, you must solve the puzzle "
-                + "within 7 turns. If you fail\nto do this, you lose. "
-                + "You may solve the puzzle at any time during the "
-                + "game,\nbut you lose if your guess is incorrect.",
-            "How to Play", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void showAbout() {
-        JOptionPane.showMessageDialog(null,
-            "Created by Nikita Kouevda and Jenny Shen\nOctober 5, 2013",
-            "About", JOptionPane.INFORMATION_MESSAGE);
+    private void enableSpinWheel() {
+        spinWheel1.setEnabled(true);
+        spinWheel2.setEnabled(true);
     }
 
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JButton source = (JButton)e.getSource();
+            JButton source = (JButton) e.getSource();
 
             for (int c = 0; c < letterButtons.length; c++) {
                 if (source == letterButtons[c]) {
-                    int occurrences = game.revealLetter((char)(c + 65));
+                    int occurrences = game.revealLetter((char) (c + 65));
+
 
                     if (c == 0 || c == 4 || c == 8 || c == 14 || c == 20) {
-                        // Subtract $250 (flat rate for vowels)
-                        topPanel.addScore(-250);
+                        // Subtract $200 (flat rate for vowels)
+                        if (spinFlag1) {
+                            topPanel.addScore1(-200);
+                        }
+                        else {
+                            topPanel.addScore2(-200);
+                        }
 
                         if (occurrences > 0) {
+                            game.revealLetter((char) (c + 65));
                             GOOD_GUESS_CLIP.play();
 
                             statusArea.setText("There "
-                                + (occurrences == 1 ? "is" : "are") + " "
-                                + occurrences + " " + (char)(c + 65)
-                                + (occurrences == 1 ? "" : "'s")
-                                + " in the puzzle! Please spin the"
-                                + "wheel or buy another vowel.");
+                                    + (occurrences == 1 ? "is" : "are") + " "
+                                    + occurrences + " " + (char) (c + 65)
+                                    + (occurrences == 1 ? "" : "'s")
+                                    + " in the puzzle! Please spin the"
+                                    + "wheel or buy another vowel.");
                         } else {
                             BAD_GUESS_CLIP.play();
 
-                            topPanel.subtractTurn();
-
                             statusArea.setText("Sorry, there are no "
-                                + (char)(c + 65) + "'s in the puzzle. "
-                                + "Please spin the wheel or buy another "
-                                + "vowel.");
+                                    + (char) (c + 65) + "'s in the puzzle. "
+                                    + "Please spin the wheel or buy another "
+                                    + "vowel.");
                         }
 
                         if (game.isAllVowelsGuessed()) {
@@ -386,98 +407,159 @@ public class WheelOfFortuneWheelPanel extends JPanel {
                             game.disableVowels();
 
                             JOptionPane.showMessageDialog(null,
-                                "There are no more vowels left in "
-                                    + "the puzzle.", "No More Vowels!",
-                                JOptionPane.WARNING_MESSAGE);
+                                    "There are no more vowels left in "
+                                            + "the puzzle.", "No More Vowels!",
+                                    JOptionPane.WARNING_MESSAGE);
                         }
                     } else {
-                        spinWheel.setEnabled(true);
+                        spinWheel1.setEnabled(true);
+                        spinWheel2.setEnabled(true);
 
                         if (occurrences > 0) {
+                            game.revealLetter((char) (c + 65));
                             GOOD_GUESS_CLIP.play();
 
                             int amount =
-                                Integer.parseInt(spaceLanded.substring(0,
-                                    spaceLanded.indexOf('.')));
-
-                            topPanel.addScore(amount * occurrences);
+                                    Integer.parseInt(spaceLanded.substring(0,
+                                            spaceLanded.indexOf('.')));
+                            if (spinFlag1) {
+                                topPanel.addScore1(amount * occurrences);
+                            }
+                            else {
+                                topPanel.addScore2(amount * occurrences);
+                            }
 
                             statusArea.setText("There "
-                                + (occurrences == 1 ? "is" : "are") + " "
-                                + occurrences + " " + (char)(c + 65)
-                                + (occurrences == 1 ? "" : "'s")
-                                + " in the puzzle! You earn $" + amount
-                                * occurrences
-                                + "! Please spin the wheel again "
-                                + "or buy a vowel.");
+                                    + (occurrences == 1 ? "is" : "are") + " "
+                                    + occurrences + " " + (char) (c + 65)
+                                    + (occurrences == 1 ? "" : "'s")
+                                    + " in the puzzle! You earn $" + amount
+                                    * occurrences
+                                    + "! Please spin the wheel again "
+                                    + "or buy a vowel.");
                         } else {
                             BAD_GUESS_CLIP.play();
-                            topPanel.subtractTurn();
 
                             statusArea.setText("Sorry, there are no "
-                                + (char)(c + 65) + "'s in the puzzle. "
-                                + "Please spin the wheel again or buy a "
-                                + "vowel.");
+                                    + (char) (c + 65) + "'s in the puzzle. "
+                                    + "Please spin the wheel again or buy a "
+                                    + "vowel.");
                         }
                     }
 
                     setEnabledConsonants(false);
-                    setEnabledVowels(game.getScore() >= 250);
-                    setEnabledGuessedLetters(false);
                 }
             }
 
-            if (source == spinWheel) {
+            if (source == buyVowel1) {
+                spinFlag1 = true;
+                setEnabledVowels(true);
+                setEnabledGuessedLetters(false);
+            }
+
+            if (source == buyVowel2) {
+                spinFlag1 = false;
+                setEnabledVowels(true);
+                setEnabledGuessedLetters(false);
+            }
+
+
+            if (source == spinWheel1) {
                 String cmd = e.getActionCommand();
 
-                if (cmd.equals("Spin Wheel")) {
+                if (cmd.equals("Spin: Team 1")) {
+                    spinFlag1 = true;
+
                     SPINNING_WHEEL_CLIP.loop();
 
-                    solvePuzzle.setEnabled(false);
+                    solvePuzzle1.setEnabled(false);
+                    solvePuzzle2.setEnabled(false);
                     setEnabledVowels(false);
 
                     wheelTimer.start();
                     statusArea.setText("The wheel is spinning...");
-                    spinWheel.setText("Stop Wheel");
+                    spinWheel1.setText("Stop Wheel");
                 } else if (cmd.equals("Stop Wheel")) {
                     SPINNING_WHEEL_CLIP.stop();
                     wheelTimer.stop();
-                    solvePuzzle.setEnabled(true);
-                    spinWheel.setText("Spin Wheel");
+                    solvePuzzle1.setEnabled(true);
+                    spinWheel1.setText("Spin: Team 1");
                     spaceLanded = imageNames.get(4);
 
                     if (spaceLanded.equals("loseATurn.png")) {
-                        topPanel.subtractTurn();
                         statusArea.setText("Sorry, you lose a turn.");
-
+                        enableSpinWheel();
                         setEnabledConsonants(false);
-                        setEnabledVowels(game.getScore() >= 250);
                         setEnabledGuessedLetters(false);
                     } else if (spaceLanded.equals("bankrupt.png")) {
                         BANKRUPT_CLIP.play();
 
-                        topPanel.subtractTurn();
-                        topPanel.resetScore();
+                        topPanel.resetScore1();
                         statusArea.setText("Sorry, you lose a turn, and "
-                            + "your score has been brought down to 0.");
-
+                                + "your score has been brought down to 0.");
+                        enableSpinWheel();
                         setEnabledConsonants(false);
-                        setEnabledVowels(game.getScore() >= 250);
                         setEnabledGuessedLetters(false);
                     } else {
-                        spinWheel.setEnabled(false);
-                        statusArea.setText("Please select a consonant.");
+                        spinWheel1.setEnabled(false);
+                        spinWheel2.setEnabled(false);
+                        statusArea.setText("Please select a consonant team 1.");
+
+                        setEnabledConsonants(true);
+                        setEnabledGuessedLetters(false);
+                    }
+                }
+            } else if (source == spinWheel2) {
+                String cmd = e.getActionCommand();
+
+                if (cmd.equals("Spin: Team 2")) {
+                    spinFlag1 = false;
+
+                    SPINNING_WHEEL_CLIP.loop();
+
+                    solvePuzzle1.setEnabled(false);
+                    solvePuzzle2.setEnabled(false);
+                    setEnabledVowels(false);
+
+                    wheelTimer.start();
+                    statusArea.setText("The wheel is spinning...");
+                    spinWheel2.setText("Stop Wheel");
+                } else if (cmd.equals("Stop Wheel")) {
+                    SPINNING_WHEEL_CLIP.stop();
+                    wheelTimer.stop();
+                    solvePuzzle2.setEnabled(true);
+                    spinWheel2.setText("Spin: Team 2");
+                    spaceLanded = imageNames.get(4);
+
+                    if (spaceLanded.equals("loseATurn.png")) {
+                        statusArea.setText("Sorry, you lose a turn.");
+                        enableSpinWheel();
+                        setEnabledConsonants(false);
+                        setEnabledGuessedLetters(false);
+                    } else if (spaceLanded.equals("bankrupt.png")) {
+                        BANKRUPT_CLIP.play();
+
+                        topPanel.resetScore2();
+                        statusArea.setText("Sorry, you lose a turn, and "
+                                + "your score has been brought down to 0.");
+                        enableSpinWheel();
+                        setEnabledConsonants(false);
+                        setEnabledGuessedLetters(false);
+                    } else {
+                        spinWheel1.setEnabled(false);
+                        spinWheel2.setEnabled(false);
+                        statusArea.setText("Please select a consonant team 2");
 
                         setEnabledConsonants(true);
                         setEnabledVowels(false);
                         setEnabledGuessedLetters(false);
                     }
                 }
-            } else if (source == solvePuzzle) {
+            } else if (source == solvePuzzle1) {
                 String solveAttempt =
-                    JOptionPane.showInputDialog(null,
-                        "Please solve the puzzle:", "Solve the Puzzle",
-                        JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showInputDialog(null,
+                                "Please solve the puzzle:", "Solve the Puzzle",
+                                JOptionPane.PLAIN_MESSAGE);
                 StringBuilder trimmedAttempt = new StringBuilder();
 
                 String phrase = game.getPhrase();
@@ -499,27 +581,55 @@ public class WheelOfFortuneWheelPanel extends JPanel {
 
                 if (trimmedAttempt.toString() != "") {
                     if (trimmedAttempt.toString().compareToIgnoreCase(
-                        trimmedPhrase.toString()) == 0) {
-                        handleWin();
+                            trimmedPhrase.toString()) == 0) {
+                        handleWin1();
                     } else {
                         handleLoss("That is incorrect.");
                     }
                 }
+            } else if (source == solvePuzzle2) {
+                String solveAttempt =
+                        JOptionPane.showInputDialog(null,
+                                "Please solve the puzzle:", "Solve the Puzzle",
+                                JOptionPane.PLAIN_MESSAGE);
+                StringBuilder trimmedAttempt = new StringBuilder();
+
+                String phrase = game.getPhrase();
+                StringBuilder trimmedPhrase = new StringBuilder();
+
+                for (int i = 0; i < phrase.length(); ++i) {
+                    if (phrase.charAt(i) != ' ') {
+                        trimmedPhrase.append(phrase.charAt(i));
+                    }
+                }
+
+                if (solveAttempt != null) {
+                    for (int i = 0; i < solveAttempt.length(); ++i) {
+                        if (solveAttempt.charAt(i) != ' ') {
+                            trimmedAttempt.append(solveAttempt.charAt(i));
+                        }
+                    }
+                }
+
+                if (trimmedAttempt.toString() != "") {
+                    if (trimmedAttempt.toString().compareToIgnoreCase(
+                            trimmedPhrase.toString()) == 0) {
+                        handleWin2();
+                    } else {
+                        handleLoss("That is incorrect.");
+                    }
+                }
+
             } else if (source == newGame) {
                 newGame();
-            } else if (source == howToPlay) {
-                showHowToPlay();
-            } else if (source == about) {
-                showAbout();
             }
 
-            if (game.getTurnsLeft() == 0) {
-                handleLoss("You have no turns left.");
-            } else if (game.isSolved()) {
-                handleWin();
-            }
+                if (game.isSolved()) {
+                    handleWin1();
+                }
 
-            puzzlePanel.repaint();
+                puzzlePanel.repaint();
+            }
         }
     }
-}
+
