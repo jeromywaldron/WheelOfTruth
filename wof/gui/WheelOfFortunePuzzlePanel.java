@@ -19,7 +19,7 @@ public class WheelOfFortunePuzzlePanel extends JPanel {
     private static final String SOUNDS_DIR = "/wof/sounds/";
 
     private static final int SQUARE_WIDTH = 55, SQUARE_HEIGHT = 65,
-            SPACE_WIDTH = 2, PUZZLE_WIDTH = 16 * SQUARE_WIDTH,
+            SPACE_WIDTH = 2, PUZZLE_WIDTH = 19 * SQUARE_WIDTH,
             PUZZLE_HEIGHT = 4 * SQUARE_HEIGHT;
 
     private final AudioClip CATEGORY_CLIP;
@@ -38,10 +38,10 @@ public class WheelOfFortunePuzzlePanel extends JPanel {
                 SOUNDS_DIR + "category.wav"));
 
         categoryLabel = new JLabel();
-        categoryLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.PLAIN, 36));
+        categoryLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.PLAIN, 28));
 
         Box labelBox = Box.createVerticalBox();
-        labelBox.add(Box.createVerticalStrut(250));
+        labelBox.add(Box.createVerticalStrut(300));
         labelBox.add(categoryLabel);
 
         add(labelBox);
@@ -65,7 +65,7 @@ public class WheelOfFortunePuzzlePanel extends JPanel {
 
         // Draw each letter box
         for (int i = 0; i < phrase.length(); ++i) {
-            int row = i / 16, col = i % 16;
+            int row = i / 19, col = i % 19;
 
             paintLetterBox(g, row, col, phrase.charAt(i) == ' ');
 

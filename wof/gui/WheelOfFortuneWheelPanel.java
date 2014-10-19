@@ -267,8 +267,7 @@ public class WheelOfFortuneWheelPanel extends JPanel {
         setEnabledVowels(false);
         spinWheel1.setEnabled(true);
         spinWheel2.setEnabled(true);
-        solvePuzzle1.setEnabled(false);
-        solvePuzzle2.setEnabled(false);
+
 
         repaint();
     }
@@ -472,8 +471,6 @@ public class WheelOfFortuneWheelPanel extends JPanel {
 
                     SPINNING_WHEEL_CLIP.loop();
 
-                    solvePuzzle1.setEnabled(false);
-                    solvePuzzle2.setEnabled(false);
                     setEnabledVowels(false);
 
                     wheelTimer.start();
@@ -517,8 +514,6 @@ public class WheelOfFortuneWheelPanel extends JPanel {
 
                     SPINNING_WHEEL_CLIP.loop();
 
-                    solvePuzzle1.setEnabled(false);
-                    solvePuzzle2.setEnabled(false);
                     setEnabledVowels(false);
 
                     wheelTimer.start();
